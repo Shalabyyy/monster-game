@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+*.vcxproj
+*.sln
+*.sdf
+#.opensdf
