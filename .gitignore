@@ -34,3 +34,9 @@
 *.sln
 *.sdf
 #.opensdf
+
+# Folders and OpenGL Bollocks
+Debug/
+OpenGLMeshLoader.cpp
+OpenGLMeshLoader.sdf
+OpenGLMeshLoader.opensdf

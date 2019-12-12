@@ -5,6 +5,9 @@
 int WIDTH = 1280;
 int HEIGHT = 720;
 
+double posX, posZ=0.0;
+float angleX = 0.0f;
+
 char title[] = "3D Model Loader Sample";
 
 // 3D Projection Options
@@ -40,9 +43,16 @@ int cameraZoom = 0;
 // Model Variables
 Model_3DS model_house;
 Model_3DS model_tree;
+Model_3DS spiderman;
+Model_3DS alien;
+Model_3DS box;
+Model_3DS gun;
+Model_3DS stickman;
 
 // Textures
 GLTexture tex_ground;
+GLTexture cobblestone_ground;
+
 
 //=======================================================================
 // Lighting Configuration Function
@@ -187,6 +197,14 @@ void myDisplay(void)
 	model_house.Draw();
 	glPopMatrix();
 
+	//Draw Alien
+	glPushMatrix();
+	glTranslatef(0 + posX, 0, 0 + posZ);
+	glRotatef(angleX,0 , 1,0);
+	glScalef(0.04, 0.04, 0.04);
+	stickman.Draw();
+	glPopMatrix();
+
 	glutSwapBuffers();
 }
 
@@ -197,11 +215,29 @@ void myKeyboard(unsigned char button, int x, int y)
 {
 	switch (button)
 	{
-	case 'w':
+	case 't':
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		break;
 	case 'r':
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		break;
+	case 'w':
+		posX = posX + 0.5;
+		break;
+	case 's':
+		posX = posX - 0.5;
+			break;
+	case 'a':
+		posZ = posZ + 0.5;
+		break;
+	case 'd':
+		posZ = posZ - 0.5;
+		break;
+	case 'z':
+		angleX = angleX - 2;
+		break;
+	case 'c':
+		angleX = angleX + 2;
 		break;
 	case 27:
 		exit(0);
@@ -290,7 +326,7 @@ void LoadAssets()
 	// Loading Model files
 	model_house.Load("Models/house/house.3ds");
 	model_tree.Load("Models/tree/tree1.3ds");
-
+	stickman.Load("Models/stickman/StickFigurea.3ds");
 	// Loading texture files
 	tex_ground.Load("Textures/ground.bmp");
 }
