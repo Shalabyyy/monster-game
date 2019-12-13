@@ -1,12 +1,41 @@
 #include "Model_3DS.h"
 #include "GLTexture.h"
 #include <glut.h>
-
+//PATHS
+char oof[] = "D:/My stuff/GUC/Year 4/Semester 7/Computer Graphics/monster-game/sfx/robloxoof.wav";
+char whoosh[] = "D:/My stuff/GUC/Year 4/Semester 7/Computer Graphics/monster-game/sfx/whoosh.wav";
+//DIMENSIONS
 int WIDTH = 1280;
 int HEIGHT = 720;
-
+//GAME VARIABLES
+int score = 0;
+//RED BOI VARIABLES
 double posX, posZ=0.0;
 float angleX = 0.0f;
+
+//BLUE ENEMY VARIABLES
+double bluX = 5.0; 
+double bluZ = 5.0;
+float bluAngle = 0.0f;
+double minBluX = bluX - 1;
+double maxBluX = bluX + 1;
+double minBluZ = bluZ - 1;
+double maxBluZ = bluZ + 1;
+bool bluAlive = true;
+
+//GREEN ENEMY VARIABLES
+double grnX = 11.0;
+double grnZ = 11.0;
+float grnAngle = 0.0f;
+double minGrnX = grnX - 1;
+double maxGrnX = grnX + 1;
+double minGrnZ = grnZ - 1;
+double maxGrnZ = grnZ+ 1;
+bool grnAlive = true;
+
+
+
+
 
 char title[] = "3D Model Loader Sample";
 
@@ -48,6 +77,7 @@ Model_3DS alien;
 Model_3DS box;
 Model_3DS gun;
 Model_3DS stickman;
+Model_3DS robot;
 
 // Textures
 GLTexture tex_ground;
@@ -64,6 +94,7 @@ void InitLightSource()
 
 	// Enable Light Source number 0
 	// OpengL has 8 light sources
+	glEnable(GL_LIGHT1);
 	glEnable(GL_LIGHT0);
 
 	// Define Light source 0 ambient light
@@ -76,7 +107,7 @@ void InitLightSource()
 
 	// Define Light source 0 Specular light
 	GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, specular);
 
 	// Finally, define light source 0 position in World Space
 	GLfloat light_position[] = { 0.0f, 10.0f, 0.0f, 1.0f };
@@ -197,17 +228,73 @@ void myDisplay(void)
 	model_house.Draw();
 	glPopMatrix();
 
-	//Draw Alien
+	//Draw Red Hero
 	glPushMatrix();
 	glTranslatef(0 + posX, 0, 0 + posZ);
 	glRotatef(angleX,0 , 1,0);
 	glScalef(0.04, 0.04, 0.04);
+	glColor3f(1.0f, 0.0f, 0.0f);
 	stickman.Draw();
 	glPopMatrix();
 
+	//Draw Blu Boi 1
+	if (bluAlive){
+		glPushMatrix();
+		glTranslatef(0 + bluX, 0, 0 + bluZ);
+		glRotatef(bluAngle, 0, 1, 0);
+		glScalef(0.04, 0.04, 0.04);
+		glColor3f(0.0f, 0.0f, 1.0f);
+		stickman.Draw();
+		glPopMatrix();
+	}
+	//Draw Grn Boi 1
+	if (grnAlive){
+		glPushMatrix();
+		glTranslatef(0 + grnX, 0, 0 + grnZ);
+		glRotatef(grnAngle, 0, 1, 0);
+		glScalef(0.04, 0.04, 0.04);
+		glColor3f(0.0f, 1.0f, 0.0f);
+		stickman.Draw();
+		glPopMatrix();
+	}
+
 	glutSwapBuffers();
 }
+ void attack(){
+	/* double posX, posZ = 0.0;	
+	 float angleX = 0.0f;
 
+	 //BLUE ENEMY VARIABLES
+	 double bluX, bluZ = 5.0;
+	 float bluAngle = 0.0f;
+	 
+	 */
+	 printf("I am at (%f,%f) \n", posX, posZ);
+	 bool punched_ = PlaySound(TEXT(whoosh), NULL, SND_ASYNC | SND_FILENAME);
+
+	 bool condBx = posX >= minBluX && posX <= maxBluX;
+	 bool condBz = posZ >= minBluZ && posZ <= maxBluZ;
+	 printf("BLUE BOI FROM X:%f -> %f AND Z: %f -> %f \n",minBluX,maxBluX,minBluZ,maxBluZ );
+	 if (condBx && condBz && bluAlive){
+		 bluAlive = false;
+		 score = score + 100;
+		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
+
+	 }
+
+	 
+	 bool condGx = posX >= minGrnX && posX <= maxGrnX;
+	 bool condGz = posZ >= minGrnZ && posZ <= maxGrnZ;
+	 printf("GREEN BOI FROM X:%f -> %f AND Z: %f -> %f \n", minGrnX, maxGrnX, minGrnZ, maxGrnZ);
+	 if (condGx && condGz && grnAlive){
+		 grnAlive = false;
+		 score = score + 100;
+		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
+
+	 }
+	 printf("---------------------------------------------------------------------------------\n");
+	 glutPostRedisplay();
+}
 //=======================================================================
 // Keyboard Function
 //=======================================================================
@@ -234,16 +321,19 @@ void myKeyboard(unsigned char button, int x, int y)
 		posZ = posZ - 0.5;
 		break;
 	case 'z':
-		angleX = angleX - 2;
+		angleX = angleX - 5;
 		break;
 	case 'c':
-		angleX = angleX + 2;
+		angleX = angleX + 5;
 		break;
 	case 27:
 		exit(0);
 		break;
-	default:
+	case'q':
+		attack();
 		break;
+	default:
+		break;	
 	}
 
 	glutPostRedisplay();
@@ -327,6 +417,7 @@ void LoadAssets()
 	model_house.Load("Models/house/house.3ds");
 	model_tree.Load("Models/tree/tree1.3ds");
 	stickman.Load("Models/stickman/StickFigurea.3ds");
+	robot.Load("Models/robot/ONDARMODEL1.3ds");
 	// Loading texture files
 	tex_ground.Load("Textures/ground.bmp");
 }
@@ -341,6 +432,7 @@ void main(int argc, char** argv)
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
 	glutInitWindowSize(WIDTH, HEIGHT);
+
 
 	glutInitWindowPosition(100, 150);
 
