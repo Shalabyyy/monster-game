@@ -33,6 +33,26 @@ double minGrnZ = grnZ - 1;
 double maxGrnZ = grnZ+ 1;
 bool grnAlive = true;
 
+//YELLOW ENEMY VARIABLES
+double ylwX = 7.0;
+double ylwZ = 15.0;
+float ylwAngle = 0.0f;
+double minYlwX = ylwX - 1;
+double maxYlwX = ylwX + 1;
+double minYlwZ = ylwZ - 1;
+double maxYlwZ = ylwZ + 1;
+bool ylwAlive = true;
+
+//ORANGE ENEMY VARIABLES
+double orgX = -10.0;
+double orgZ = -20.0;
+float orgAngle = 0.0f;
+double minOrgX = orgX - 1;
+double maxOrgX = orgX + 1;
+double minOrgZ = orgZ - 1;
+double maxOrgZ = orgZ + 1;
+bool orgAlive = true;
+
 
 
 
@@ -257,21 +277,45 @@ void myDisplay(void)
 		stickman.Draw();
 		glPopMatrix();
 	}
+	if (ylwAlive){
+		glPushMatrix();
+		glTranslatef(0 + ylwX, 0, 0 + ylwZ);
+		glRotatef(ylwAngle, 0, 1, 0);
+		glScalef(0.04, 0.04, 0.04);
+		glColor3f(1.0f, 1.0f, 0.0f);
+		stickman.Draw();
+		glPopMatrix();
+	}
+	if (orgAlive){
+		glPushMatrix();
+		glTranslatef(0 + orgX, 0, 0 + orgZ);
+		glRotatef(orgAngle, 0, 1, 0);
+		glScalef(0.04, 0.04, 0.04);
+		glColor3f(1.0f, 0.27f, 0.0f);
+		stickman.Draw();
+		glPopMatrix();
+	}
 
 	glutSwapBuffers();
 }
- void attack(){
-	/* double posX, posZ = 0.0;	
-	 float angleX = 0.0f;
+void attackAnimation(){
+	float temp = angleX;
+	for (int i = 0; i < 360; i++){
+		printf("HARHAR \n");
+		angleX = temp - i;
+		glutPostRedisplay();
+	}
+	angleX = temp;
+	glutPostRedisplay();
 
-	 //BLUE ENEMY VARIABLES
-	 double bluX, bluZ = 5.0;
-	 float bluAngle = 0.0f;
-	 
-	 */
+}
+ void attack(){
+
 	 printf("I am at (%f,%f) \n", posX, posZ);
 	 bool punched_ = PlaySound(TEXT(whoosh), NULL, SND_ASYNC | SND_FILENAME);
+	 //attackAnimation();
 
+	 //BLUE BOI
 	 bool condBx = posX >= minBluX && posX <= maxBluX;
 	 bool condBz = posZ >= minBluZ && posZ <= maxBluZ;
 	 printf("BLUE BOI FROM X:%f -> %f AND Z: %f -> %f \n",minBluX,maxBluX,minBluZ,maxBluZ );
@@ -281,8 +325,7 @@ void myDisplay(void)
 		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
 
 	 }
-
-	 
+	 //GREEN BOI
 	 bool condGx = posX >= minGrnX && posX <= maxGrnX;
 	 bool condGz = posZ >= minGrnZ && posZ <= maxGrnZ;
 	 printf("GREEN BOI FROM X:%f -> %f AND Z: %f -> %f \n", minGrnX, maxGrnX, minGrnZ, maxGrnZ);
@@ -290,14 +333,114 @@ void myDisplay(void)
 		 grnAlive = false;
 		 score = score + 100;
 		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
+	 }
+
+	 //YELLOW BOI
+	 bool condYx = posX >= minYlwX && posX <= maxYlwX;
+	 bool condYz = posZ >= minYlwZ && posZ <= maxYlwZ;
+	 printf("YELLOW BOI FROM X:%f -> %f AND Z: %f -> %f \n", minYlwX, maxYlwX, minYlwZ, maxYlwZ);
+	 if (condYx && condYz && ylwAlive){
+		 ylwAlive = false;
+		 score = score + 100;
+		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
 
 	 }
+	 //ORANGE BOI
+	 bool condOGx = posX >= minOrgX && posX <= maxOrgX;
+	 bool condOGz = posZ >= minOrgZ && posZ <= maxOrgZ;
+	 printf("ORANGE BOI FROM X:%f -> %f AND Z: %f -> %f \n", minOrgX, maxOrgX, minOrgZ, maxOrgZ);
+	 if (condOGx && condOGz && orgAlive){
+		 orgAlive = false;
+		 score = score + 100;
+		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
+	 }
+
 	 printf("---------------------------------------------------------------------------------\n");
 	 glutPostRedisplay();
 }
 //=======================================================================
 // Keyboard Function
 //=======================================================================
+ void move(unsigned char key){
+	 //use the first if as a reference 
+	 if (angleX >= 0 && angleX < 90){
+		 printf("First Quadrant \n");
+		 if (key == 'w'){
+			 //N7ot Function el a EL ADEEM
+			 posZ = posZ + 0.5;
+		 }
+		 else if (key == 's'){
+			 //N7ot function el d EL ADEEMA
+			 posZ = posZ - 0.5;
+		 }
+		 else if (key == 'a'){
+			 //N7ot Function el w EL ADEEMA
+			 posX = posX + 0.5;
+
+		 }
+		 else if (key == 'd'){
+			 //n7ot function el s EL ADEEMA
+			 posX = posX - 0.5;
+
+		 }
+	 }
+	 else if (angleX >= 90 && angleX < 180){
+		 printf("Second Quadrant \n");
+		 if (key == 'w'){
+			 posX = posX + 0.5;
+
+		 }
+		 else if (key == 's'){
+			 posX = posX - 0.5;
+
+		 }
+		 else if (key == 'a'){
+			 posZ = posZ - 0.5;
+		 }
+		 else if (key == 'd'){
+			 posZ = posZ + 0.5;
+
+		 }
+	 }
+	 else if (angleX >= 180 && angleX < 270){
+		 printf("Third Quadrant \n");
+		 if (key == 'w'){
+			 posZ = posZ - 0.5;
+		 }
+		 else if (key == 's'){
+			 posZ = posZ + 0.5;
+		 }
+		 else if (key == 'a'){
+			 posX = posX - 0.5;
+		 }
+		 else if (key == 'd'){
+			 posX = posX + 0.5;
+		 }
+
+	 }
+	 else if (angleX >= 270 && angleX < 360){
+		 printf("Fourth Quadrant \n");
+
+		 if (key == 'w'){
+			 posX = posX - 0.5;
+
+		 }
+		 else if (key == 's'){
+			 posX = posX + 0.5;
+
+		 }
+		 else if (key == 'a'){
+			 posZ = posZ + 0.5;
+		 }
+		 else if (key == 'd'){
+			 posZ = posZ - 0.5;
+
+		 }
+	 }
+
+
+ }
+
 void myKeyboard(unsigned char button, int x, int y)
 {
 	switch (button)
@@ -309,22 +452,37 @@ void myKeyboard(unsigned char button, int x, int y)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		break;
 	case 'w':
-		posX = posX + 0.5;
+		//posX = posX + 0.5;
+		move(button);
 		break;
 	case 's':
-		posX = posX - 0.5;
+		//posX = posX - 0.5;
+		move(button);
 			break;
 	case 'a':
-		posZ = posZ + 0.5;
+		//posZ = posZ + 0.5;
+		move(button);
 		break;
 	case 'd':
-		posZ = posZ - 0.5;
+		//posZ = posZ - 0.5;
+		move(button);
 		break;
 	case 'z':
-		angleX = angleX - 5;
+		angleX = angleX - 22.5;
+		printf("NEGATIVE BOOM %f \n", angleX);
+		if (angleX == -360){
+			angleX = 0.0f;
+			printf("BOOM %f \n",angleX);
+		}
 		break;
 	case 'c':
-		angleX = angleX + 5;
+		angleX = angleX + 22.5;
+		printf("POSOTIVE BOOM %f \n", angleX);
+		if (angleX == 360){
+			angleX = 0.0f;
+			printf("BOOM %f \n", angleX);
+
+		}
 		break;
 	case 27:
 		exit(0);
@@ -342,6 +500,7 @@ void myKeyboard(unsigned char button, int x, int y)
 //=======================================================================
 // Motion Function
 //=======================================================================
+
 void myMotion(int x, int y)
 {
 	y = HEIGHT - y;
@@ -368,7 +527,6 @@ void myMotion(int x, int y)
 
 	glutPostRedisplay();	//Re-draw scene 
 }
-
 //=======================================================================
 // Mouse Function
 //=======================================================================
