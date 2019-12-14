@@ -609,7 +609,7 @@ void LoadAssets()
 	model_house.Load("Models/house/house.3ds");
 	model_tree.Load("Models/tree/tree1.3ds");
 	stickman.Load("Models/stickman/StickFigurea.3ds");
-	sample.Load("Models/bear/BEAR_KDK.3ds");
+	sample.Load("Models/soldier/Soldier.3ds");
 	// Loading texture files
 	tex_ground.Load("Textures/ground.bmp");
 }
