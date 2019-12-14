@@ -1,14 +1,6 @@
-﻿Build started 12/13/2019 10:51:45 PM.
+﻿Build started 12/14/2019 8:17:51 PM.
      1>Project "D:\My stuff\GUC\Year 4\Semester 7\Computer Graphics\monster-game\OpenGLMeshLoader.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"D:\My stuff\GUC\Year 4\Semester 7\Computer Graphics\monster-game\Debug\\.." /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt OpenGLMeshLoader.cpp
-         OpenGLMeshLoader.cpp
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(315): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(325): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(335): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(345): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(355): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-       Link:
+     1>Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\My stuff\GUC\Year 4\Semester 7\Computer Graphics\monster-game\Debug\OpenGLMeshLoader.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\My stuff\GUC\Year 4\Semester 7\Computer Graphics\monster-game\Debug\\.." glut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\My stuff\GUC\Year 4\Semester 7\Computer Graphics\monster-game\Debug\OpenGLMeshLoader.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\My stuff\GUC\Year 4\Semester 7\Computer Graphics\monster-game\Debug\OpenGLMeshLoader.lib" /MACHINE:X86 Debug\GLTexture.obj
          Debug\Model_3DS.obj
          Debug\OpenGLMeshLoader.obj
@@ -18,4 +10,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.39
+Time Elapsed 00:00:00.62

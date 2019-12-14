@@ -4,11 +4,15 @@
 //PATHS
 char oof[] = "D:/My stuff/GUC/Year 4/Semester 7/Computer Graphics/monster-game/sfx/robloxoof.wav";
 char whoosh[] = "D:/My stuff/GUC/Year 4/Semester 7/Computer Graphics/monster-game/sfx/whoosh.wav";
+char failed[] = "D:/My stuff/GUC/Year 4/Semester 7/Computer Graphics/monster-game/sfx/failed.wav";
 //DIMENSIONS
 int WIDTH = 1280;
 int HEIGHT = 720;
 //GAME VARIABLES
 int score = 0;
+int frames = 0;
+int time = 30;
+int gameSpeed = 200;
 //RED BOI VARIABLES
 double posX, posZ=0.0;
 float angleX = 0.0f;
@@ -22,6 +26,7 @@ double maxBluX = bluX + 1;
 double minBluZ = bluZ - 1;
 double maxBluZ = bluZ + 1;
 bool bluAlive = true;
+bool deathAnim = false;
 
 //GREEN ENEMY VARIABLES
 double grnX = 11.0;
@@ -97,7 +102,7 @@ Model_3DS alien;
 Model_3DS box;
 Model_3DS gun;
 Model_3DS stickman;
-Model_3DS robot;
+Model_3DS sample;
 
 // Textures
 GLTexture tex_ground;
@@ -161,7 +166,6 @@ void InitMaterial()
 void myInit(void)
 {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
-
 	glMatrixMode(GL_PROJECTION);
 
 	glLoadIdentity();
@@ -199,13 +203,9 @@ void myInit(void)
 void RenderGround()
 {
 	glDisable(GL_LIGHTING);	// Disable lighting 
-
 	glColor3f(0.6, 0.6, 0.6);	// Dim the ground texture a bit
-
 	glEnable(GL_TEXTURE_2D);	// Enable 2D texturing
-
 	glBindTexture(GL_TEXTURE_2D, tex_ground.texture[0]);	// Bind the ground texture
-
 	glPushMatrix();
 	glBegin(GL_QUADS);
 	glNormal3f(0, 1, 0);	// Set quad normal direction.
@@ -245,6 +245,7 @@ void myDisplay(void)
 	// Draw House Model
 	glPushMatrix();
 	glRotatef(90.f, 1, 0, 0);
+	glScaled(1.5, 1.5, 1.5);
 	model_house.Draw();
 	glPopMatrix();
 
@@ -257,11 +258,18 @@ void myDisplay(void)
 	stickman.Draw();
 	glPopMatrix();
 
+	glPushMatrix();
+	glTranslatef(0 + 12, 0, 0 + 12);
+	glRotatef(bluAngle, 0, 0, 1);
+	glScalef(0.5, 0.5, 0.5);
+	sample.Draw();
+	glPopMatrix();
+
 	//Draw Blu Boi 1
 	if (bluAlive){
 		glPushMatrix();
 		glTranslatef(0 + bluX, 0, 0 + bluZ);
-		glRotatef(bluAngle, 0, 1, 0);
+		glRotatef(bluAngle, 0, 0, 1);
 		glScalef(0.04, 0.04, 0.04);
 		glColor3f(0.0f, 0.0f, 1.0f);
 		stickman.Draw();
@@ -298,6 +306,7 @@ void myDisplay(void)
 
 	glutSwapBuffers();
 }
+
 void attackAnimation(){
 	float temp = angleX;
 	for (int i = 0; i < 360; i++){
@@ -320,12 +329,13 @@ void attackAnimation(){
 	 bool condBz = posZ >= minBluZ && posZ <= maxBluZ;
 	 printf("BLUE BOI FROM X:%f -> %f AND Z: %f -> %f \n",minBluX,maxBluX,minBluZ,maxBluZ );
 	 if (condBx && condBz && bluAlive){
-		 bluAlive = false;
 		 score = score + 100;
 		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
+		 bluAlive = false;
 
 	 }
 	 //GREEN BOI
+	 
 	 bool condGx = posX >= minGrnX && posX <= maxGrnX;
 	 bool condGz = posZ >= minGrnZ && posZ <= maxGrnZ;
 	 printf("GREEN BOI FROM X:%f -> %f AND Z: %f -> %f \n", minGrnX, maxGrnX, minGrnZ, maxGrnZ);
@@ -445,6 +455,9 @@ void myKeyboard(unsigned char button, int x, int y)
 {
 	switch (button)
 	{
+	case'p': 
+		Eye.y=Eye.y + 1;
+		break;
 	case 't':
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		break;
@@ -539,7 +552,28 @@ void myMouse(int button, int state, int x, int y)
 		cameraZoom = y;
 	}
 }
+//=======================================================================
+// Timer Function
+//=======================================================================
+void timer(int val){
+	frames++; 
+	if (frames % 5 == 0){
+		time--;
+	}
+	if (time < 0){
+		bool sound = PlaySound(TEXT(failed), NULL, SND_ASYNC | SND_FILENAME);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	else{
+		printf("TIME REMAING: %d \n", time);
+		printf("FRAMES REMAING: %d \n", frames);
+		printf("------------------------------------------\n");
+	}
 
+	glutPostRedisplay();
+	glutTimerFunc(gameSpeed, timer, 0);
+
+}
 //=======================================================================
 // Reshape Function
 //=======================================================================
@@ -575,7 +609,7 @@ void LoadAssets()
 	model_house.Load("Models/house/house.3ds");
 	model_tree.Load("Models/tree/tree1.3ds");
 	stickman.Load("Models/stickman/StickFigurea.3ds");
-	robot.Load("Models/robot/ONDARMODEL1.3ds");
+	sample.Load("Models/bear/BEAR_KDK.3ds");
 	// Loading texture files
 	tex_ground.Load("Textures/ground.bmp");
 }
@@ -604,9 +638,12 @@ void main(int argc, char** argv)
 
 	glutMouseFunc(myMouse);
 
+	glutTimerFunc(0, timer, 0);
+
 	glutReshapeFunc(myReshape);
 
 	myInit();
+
 
 	LoadAssets();
 
