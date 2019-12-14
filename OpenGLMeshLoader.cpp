@@ -102,7 +102,7 @@ Model_3DS alien;
 Model_3DS box;
 Model_3DS gun;
 Model_3DS stickman;
-Model_3DS sample;
+Model_3DS dragon;
 
 // Textures
 GLTexture tex_ground;
@@ -261,8 +261,9 @@ void myDisplay(void)
 	glPushMatrix();
 	glTranslatef(0 + 12, 0, 0 + 12);
 	glRotatef(bluAngle, 0, 0, 1);
-	glScalef(0.5, 0.5, 0.5);
-	sample.Draw();
+	glScalef(0.02, 0.07, 0.03);
+	glColor3f(0.0f, 0.0f, 0.0f);
+	dragon.Draw();
 	glPopMatrix();
 
 	//Draw Blu Boi 1
@@ -609,7 +610,7 @@ void LoadAssets()
 	model_house.Load("Models/house/house.3ds");
 	model_tree.Load("Models/tree/tree1.3ds");
 	stickman.Load("Models/stickman/StickFigurea.3ds");
-	sample.Load("Models/soldier/Soldier.3ds");
+	dragon.Load("Models/dragon/Dragon 2.5_3ds.3ds");
 	// Loading texture files
 	tex_ground.Load("Textures/ground.bmp");
 }
