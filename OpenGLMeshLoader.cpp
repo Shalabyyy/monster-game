@@ -3,6 +3,9 @@
 #include <glut.h>
 #include <stdio.h>
 #include <math.h>
+#include <random>
+#include <iostream>
+#include <Windows.h>
 //PATHS
 char oof[] = "D:/My stuff/GUC/Year 4/Semester 7/Computer Graphics/monster-game/sfx/robloxoof.wav";
 char whoosh[] = "D:/My stuff/GUC/Year 4/Semester 7/Computer Graphics/monster-game/sfx/whoosh.wav";
@@ -16,10 +19,13 @@ int frames = 0;
 int time = 30;
 int gameSpeed = 200;
 bool incTime = true;
-bool level1 =true ;
+bool level1 = false ;
 float sysAngle = 0.0f;
 bool third_person = true;
 bool first_person = false;
+bool finished_game = false;
+char skr[6];
+
 //RED BOI VARIABLES
 double posX, posZ=0.0;
 float angleX = 0.0f;
@@ -68,7 +74,7 @@ bool orgAlive = true;
 //  5 Dragons
 //RED DRAGON VARIABLES
 double redDragonX = 6;
-double redDragonZ = 5;
+double redDragonZ = -10;
 float redDragonAngle = 0.0f;
 double minRedDragonX = redDragonX - 1;
 double maxRedDragonX = redDragonX + 1;
@@ -116,7 +122,17 @@ double minOrangeDragonZ = orangeDragonZ - 1;
 double maxOrangeDraginZ = orangeDragonZ + 1;
 bool orangeDragonAlive = true;
 
+//Car 1
+int car1X = 18;
+int car1Z = -1;
 
+//Car 2 
+int car2X = -17;
+int car2Z = 0;
+
+//Car 3
+int  car3X = -10;
+int car3Z = -15;
 
 
 char title[] = "3D Model Loader Sample";
@@ -166,6 +182,17 @@ Model_3DS model_truck;
 // Textures
 GLTexture tex_ground;
 GLTexture cobblestone_ground;
+
+void print(float x, float y, float z, char* string)
+{
+	int len, i;
+	glRasterPos3f(x, y, z);
+	len = (int)strlen(string);
+	for (i = 0; i < len; i++)
+	{
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]);
+	}
+}
 
 
 //=======================================================================
@@ -268,13 +295,13 @@ void renderGroundCOBB(){
 	glBegin(GL_QUADS);
 	glNormal3f(0, 1, 0);	// Set quad normal direction.
 	glTexCoord2f(0, 0);		// Set tex coordinates ( Using (0,0) -> (5,5) with texture wrapping set to GL_REPEAT to simulate the ground repeated grass texture).
-	glVertex3f(-20, 0, -20);
-	glTexCoord2f(5, 0);
-	glVertex3f(20, 0, -20);
-	glTexCoord2f(5, 5);
-	glVertex3f(20, 0, 20);
-	glTexCoord2f(0, 5);
-	glVertex3f(-20, 0, 20);
+	glVertex3f(-40, 0, -40);
+	glTexCoord2f(10, 0);
+	glVertex3f(40, 0, -40);
+	glTexCoord2f(10, 10);
+	glVertex3f(40, 0, 40);
+	glTexCoord2f(0, 10);
+	glVertex3f(-40, 0, 40);
 	glEnd();
 	glPopMatrix();
 
@@ -310,6 +337,78 @@ void RenderGround()
 //=======================================================================
 // Display Function
 //=======================================================================
+bool checkCarRange(){
+	bool redx = posX >= 16.5 && posX <= 20;
+	bool redz = posZ >= -4.5 && posZ <= 2;
+	bool red_col = redx && redz;
+	
+	bool bluex = posX >= -18 && posX <= -15.5;
+	bool bluez = posZ >= -2.5 && posZ <= 3;
+	bool blue_col = bluex && bluez;
+
+	bool greenx = posX >= -11 && posX <= -8;
+	bool greenz = posZ >= -20 && posZ <= -10.5;
+	bool green_col = greenx && greenz;
+
+	bool tree = posX == 9.5 && posZ == 0;
+
+	bool housex = posX >= -5.5 && posX <= 5;
+	bool housez= posZ >= -3 && posZ <= 0;
+	bool house = housex && housez;
+
+	bool mapx = posX >= -49 && posX <= 49;
+	bool mapz = posZ >= -49 && posZ <= 49;
+	bool mapcn = mapx && mapz;
+
+	bool blue_boiX = posX >= (bluX - 0.5) && posX <= (bluX + 0.5);
+	bool blue_boiZ = posZ >= (bluZ - 0.5) && posZ <= (bluZ + 0.5);
+	bool blue_boi = blue_boiX && blue_boiZ && bluAlive;
+	
+	bool green_boiX = posX >= (grnX - 0.5) && posX <= (grnX + 0.5);
+	bool green_boiZ = posZ >= (grnZ - 0.5) && posZ <= (grnZ + 0.5);
+	bool green_boi = green_boiX && green_boiZ && grnAlive;
+
+	bool yellow_boiX = posX >= (ylwX - 0.5) && posX <= (ylwX + 0.5);
+	bool yellow_boiZ = posZ >= (ylwZ - 0.5) && posZ <= (ylwZ + 0.5);
+	bool yellow_boi = yellow_boiX && yellow_boiZ && ylwAlive;
+
+	bool orange_boiX = posX >= (orgX - 0.5) && posX <= (orgX + 0.5);
+	bool orange_boiZ = posZ >= (orgZ - 0.5) && posZ <= (orgZ + 0.5);
+	bool orange_boi = orange_boiX && orange_boiZ && orgAlive;
+
+
+	bool verdict = blue_col || red_col || green_col || blue_boi || green_boi || yellow_boi || orange_boi || house || !mapcn;
+	
+	return verdict;
+
+
+}
+
+bool checkCarRange2(){
+	bool redx = posX >= -13.5 && posX <= -5.5;
+	bool redz = posZ >= 19 && posZ <= 21.5;
+	bool red_col = redx && redz;
+
+	bool bluex = posX >= -3 && posX <= 4.5;
+	bool bluez = posZ >= 19 && posZ <= 21.5;
+	bool blue_col = bluex && bluez;
+
+	bool greenx = posX >= -18.5 && posX <= -10;
+	bool greenz = posZ >= -13.5 && posZ <= -16.5;
+	bool green_col = greenx && greenz;
+
+	bool tree = posX == 9.5 && posZ == 0;
+
+	bool housex = posX >= -5.5 && posX <= 5;
+	bool housez = posZ >= -3 && posZ <= 0;
+	bool house = housex && housez;
+
+	bool mapx = posX >= -49 && posX <= 49;
+	bool mapz = posZ >= -49 && posZ <= 49;
+	bool mapcn = mapx && mapz;
+
+	return red_col || blue_col || green_col || tree || house ;
+}
 void myDisplay(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -339,8 +438,26 @@ void myDisplay(void)
 	// Draw Car Model
 	if (level1){
 		glPushMatrix();
-		glTranslatef(-5, 0, -15);
+		glTranslatef(car1X, 0, car1Z);
 		glScalef(1.2, 1.2, 1.2);
+		model_car.Draw();
+		glPopMatrix();
+	}
+
+	if (level1){
+		glPushMatrix();
+		glTranslatef(car2X, 0, car2Z);
+		glScalef(1.2, 1.2, 1.2);
+		glColor3f(0.0f, 0.0f, 1.0f);
+		model_car.Draw();
+		glPopMatrix();
+	}
+
+	if (level1){
+		glPushMatrix();
+		glTranslatef(car3X, 0, car3Z);
+		glScalef(1.2, 1.2, 2);
+		glColor3f(0.0f, 1.0f, 0.0f);
 		model_car.Draw();
 		glPopMatrix();
 	}
@@ -348,8 +465,25 @@ void myDisplay(void)
 	// Draw Truck Model
 	if (!level1){
 		glPushMatrix();
-		glTranslatef(5, 0, -15);
-		glScalef(0.9, 0.9, 0.9);
+		glTranslatef(-10, 0, 20);
+		glScalef(1, 1, 1);
+		glColor3f(1.0, 0.0f, 0.0f);
+		model_truck.Draw();
+		glPopMatrix();
+	}
+	if (!level1){
+		glPushMatrix();
+		glTranslatef(0, 0, 20);
+		glScalef(1, 1, 1);
+		glColor3f(0.0f, 0.0f, 1.0f);
+		model_truck.Draw();
+		glPopMatrix();
+	}
+	if (!level1){
+		glPushMatrix();
+		glTranslatef(-15, 0, -15);
+		glScalef(1, 1, 1);
+		glColor3f(0.0f, 1.0f, 0.0f);
 		model_truck.Draw();
 		glPopMatrix();
 	}
@@ -363,6 +497,20 @@ void myDisplay(void)
 	stickman.Draw();
 	glPopMatrix();
 
+	glPushMatrix();	
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glTranslated(-1+posX, 4, -1+posZ);
+	print(0.0f, 0.0f, 0.0f, skr);
+	glPopMatrix();
+
+	if (finished_game){
+		glPushMatrix();
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glTranslated(-1 + posX, 5, -1 + posZ);
+		print(0.0f, 0.0f, 0.0f, "GAME OVER !");
+		glPopMatrix();
+	
+	}
 	if (!level1 && redDragonAlive){
 		//RED DRAGON
 		glPushMatrix();
@@ -482,6 +630,7 @@ void attackAnimation(){
 	 printf("BLUE BOI FROM X:%f -> %f AND Z: %f -> %f \n",minBluX,maxBluX,minBluZ,maxBluZ );
 	 if (condBx && condBz && bluAlive){
 		 score = score + 100;
+		 sprintf(skr, "%d", score);
 		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
 		 bluAlive = false;
 
@@ -494,6 +643,7 @@ void attackAnimation(){
 	 if (condGx && condGz && grnAlive){
 		 grnAlive = false;
 		 score = score + 100;
+		 sprintf(skr, "%d", score);
 		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
 	 }
 
@@ -504,6 +654,7 @@ void attackAnimation(){
 	 if (condYx && condYz && ylwAlive){
 		 ylwAlive = false;
 		 score = score + 100;
+		 sprintf(skr, "%d", score);
 		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
 
 	 }
@@ -514,6 +665,7 @@ void attackAnimation(){
 	 if (condOGx && condOGz && orgAlive){
 		 orgAlive = false;
 		 score = score + 100;
+		 sprintf(skr, "%d", score);
 		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
 	 }
 
@@ -529,6 +681,7 @@ void attackAnimation(){
 	 printf("RED DRAGON FROM X:%f -> %f AND Z: %f -> %f \n", minRedDragonX, maxRedDragonX, minRedDragonZ, maxRedDraginZ);
 	 if (condRx && condRx &&  redDragonAlive){
 		 score = score + 100;
+		 sprintf(skr, "%d", score);
 		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
 		 redDragonAlive = false;
 
@@ -540,6 +693,7 @@ void attackAnimation(){
 	 printf("BLUE DRAGON FROM X:%f -> %f AND Z: %f -> %f \n", minBlueDragonX, maxBlueDragonX, minBlueDragonZ, maxBlueDraginZ);
 	 if (condBx && condBz &&  blueDragonAlive){
 		 score = score + 100;
+		 sprintf(skr, "%d", score);
 		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
 		 blueDragonAlive = false;
 
@@ -552,6 +706,7 @@ void attackAnimation(){
 	 if (condGx && condGz && greenDragonAlive){
 		 greenDragonAlive = false;
 		 score = score + 100;
+		 sprintf(skr, "%d", score);
 		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
 	 }
 
@@ -562,6 +717,7 @@ void attackAnimation(){
 	 if (condYx && condYz && yellowDragonAlive){
 		 yellowDragonAlive = false;
 		 score = score + 100;
+		 sprintf(skr, "%d", score);
 		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
 
 	 }
@@ -569,9 +725,10 @@ void attackAnimation(){
 	 bool condOGx = posX >= minOrangeDragonX && posX <= maxOrangeDragonX;
 	 bool condOGz = posZ >= minOrangeDragonZ && posZ <= maxOrangeDraginZ;
 	 printf("ORANGE DRAGON FROM X:%f -> %f AND Z: %f -> %f \n", minOrangeDragonX, maxOrangeDragonX, minOrangeDragonZ, maxOrangeDraginZ);
-	 if (condOGx && condOGz && orgAlive){
-		 orgAlive = false;
+	 if (condOGx && condOGz && orangeDragonAlive){
+		 orangeDragonAlive = false;
 		 score = score + 100;
+		 sprintf(skr, "%d", score);
 		 bool played = PlaySound(TEXT(oof), NULL, SND_ASYNC | SND_FILENAME);
 	 }
 
@@ -588,19 +745,43 @@ void attackAnimation(){
 		 if (key == 'w'){
 			 //N7ot Function el a EL ADEEM
 			 posZ = posZ + 0.5;
+			 if (level1 && checkCarRange()){
+				 posZ = posZ - 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posZ = posZ - 0.5;
+			 }
 		 }
 		 else if (key == 's'){
 			 //N7ot function el d EL ADEEMA
 			 posZ = posZ - 0.5;
+			 if (level1 && checkCarRange()){
+				 posZ = posZ +0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posZ = posZ + 0.5;
+			 }
 		 }
 		 else if (key == 'a'){
 			 //N7ot Function el w EL ADEEMA
 			 posX = posX + 0.5;
+			 if (level1 && checkCarRange()){
+				 posX = posX - 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posX = posX - 0.5;
+			 }
 
 		 }
 		 else if (key == 'd'){
 			 //n7ot function el s EL ADEEMA
 			 posX = posX - 0.5;
+			 if (level1 && checkCarRange()){
+				 posX = posX + 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posX = posX + 0.5;
+			 }
 
 		 }
 	 }
@@ -608,17 +789,43 @@ void attackAnimation(){
 		 printf("Second Quadrant \n");
 		 if (key == 'w'){
 			 posX = posX + 0.5;
+			 if (level1 && checkCarRange()){
+				 posX = posX - 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posX = posX - 0.5;
+			 }
 
 		 }
 		 else if (key == 's'){
 			 posX = posX - 0.5;
+			 if (level1 && checkCarRange()){
+				 posX = posX + 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posX = posX - 0.5;
+			 }
+
 
 		 }
 		 else if (key == 'a'){
 			 posZ = posZ - 0.5;
+			 if (level1 && checkCarRange()){
+				 posZ = posZ + 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posZ = posZ + 0.5;
+			 }
 		 }
 		 else if (key == 'd'){
 			 posZ = posZ + 0.5;
+			 if (level1 && checkCarRange()){
+				 posZ = posZ - 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posZ = posZ - 0.5;
+			 }
+
 
 		 }
 	 }
@@ -626,15 +833,39 @@ void attackAnimation(){
 		 printf("Third Quadrant \n");
 		 if (key == 'w'){
 			 posZ = posZ - 0.5;
+			 if (level1 && checkCarRange()){
+				 posZ = posZ + 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posZ = posZ + 0.5;
+			 }
 		 }
 		 else if (key == 's'){
 			 posZ = posZ + 0.5;
+			 if (level1 && checkCarRange()){
+				 posZ = posZ - 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posZ = posZ - 0.5;
+			 }
 		 }
 		 else if (key == 'a'){
 			 posX = posX - 0.5;
+			 if (level1 && checkCarRange()){
+				 posX = posX + 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posX = posX + 0.5;
+			 }
 		 }
 		 else if (key == 'd'){
 			 posX = posX + 0.5;
+			 if (level1 && checkCarRange()){
+				 posX = posX - 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posX = posX - 0.5;
+			 }
 		 }
 
 	 }
@@ -644,17 +875,42 @@ void attackAnimation(){
 		 cameraWidth = 672;
 		 if (key == 'w'){
 			 posX = posX - 0.5;
+			 if (level1 && checkCarRange()){
+				 posX = posX + 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posX = posX + 0.5;
+			 }
 
 		 }
 		 else if (key == 's'){
 			 posX = posX + 0.5;
+			 if (level1 && checkCarRange()){
+				 posX = posX - 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posX = posX - 0.5;
+			 }
 
 		 }
 		 else if (key == 'a'){
 			 posZ = posZ + 0.5;
+			 if (level1 && checkCarRange()){
+				 posZ = posZ + 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posZ = posZ + 0.5;
+			 }
 		 }
 		 else if (key == 'd'){
 			 posZ = posZ - 0.5;
+			 if (level1 && checkCarRange()){
+				 posZ = posZ - 0.5;
+			 }
+			  if (!level1 && checkCarRange2()){
+				 posZ = posZ - 0.5;
+			 }
+
 
 		 }
 	 }
@@ -663,21 +919,20 @@ void attackAnimation(){
  }
  void refreshCamera(){
 	 if (posX > 0){
-		 At.x = posX - 2;
+		 At.x = posX ;
 	 }
 	 else{
-		 At.x = posX + 1;
+		 At.x = posX ;
 
 	 }
 	 if (posZ > 0){
-		 At.z = posZ - 2;
-
+		 At.z = posZ;
 	 }
 	 else{
-		 At.z = posZ + 1;
+		 At.z = posZ;
 	 }
 	
-	 At.z = posZ-2;
+	 At.z = posZ;
 	 Eye.x = posX - 10;
 	 Eye.z = posZ - 10;
 	 if (angleX >= 90 && angleX < 180){
@@ -707,6 +962,23 @@ void myKeyboard(unsigned char button, int x, int y)
 		sysAngle=sysAngle-1;
 		printf("THE ANGLE IS %f", sysAngle);
 		break;
+	case 'i':
+		car3X++;
+		printf("THE CAR IS AT (%d,%d)", car3X, car3Z);
+		break;
+	case 'u':
+		car3X--;
+		printf("THE CAR IS AT (%d,%d)", car3X, car3Z);
+		break;
+	case 'h':
+		car3Z++;
+		printf("THE CAR IS AT (%d,%d)", car3X, car3Z);
+		break;
+	case 'j':
+		car3Z--;
+		printf("THE CAR IS AT (%d,%d)", car3X, car3Z);
+		break;
+
 	case'k':
 		refreshCamera();
 		break;
@@ -853,15 +1125,19 @@ void timer(int val){
 	if (!bluAlive && !grnAlive && !ylwAlive && !orgAlive &&incTime){
 		level1 = false;
 		incTime = false;
-		time = time+30;
+		time = time+60;
+		glClearColor(0.0f, 0.0f, 0.2f, 0.0f);
 	}
-	if (!blueDragonAlive && !greenDragonAlive && !yellowDragonAlive && !orangeDragonAlive && !redDragonAlive){
+	if (!blueDragonAlive && !greenDragonAlive && !yellowDragonAlive && !orangeDragonAlive && !redDragonAlive && !finished_game){
 		//calculate score
+		finished_game = true;
 		score = score + (time * 50);
+		sprintf(skr, "%d", score);
 		printf("YOU HAVE DEFEATED ALL ENEMIES \n");
 		printf("YOUR SCORE IS %d \n",score);
 
 	}
+	
 	glutPostRedisplay();
 	glutTimerFunc(gameSpeed, timer, 0);
 
