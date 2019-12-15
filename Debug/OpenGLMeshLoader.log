@@ -1,39 +1,39 @@
-﻿Build started 12/15/2019 11:54:45 PM.
+﻿Build started 12/16/2019 12:32:50 AM.
      1>Project "D:\My stuff\GUC\Year 4\Semester 7\Computer Graphics\monster-game\OpenGLMeshLoader.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"D:\My stuff\GUC\Year 4\Semester 7\Computer Graphics\monster-game\Debug\\.." /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt OpenGLMeshLoader.cpp
          OpenGLMeshLoader.cpp
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(624): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(633): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(654): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(663): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(634): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(646): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(664): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(676): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(647): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(657): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(658): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(668): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(669): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
      1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(677): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(684): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(687): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(685): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(696): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(688): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(698): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(697): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(709): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(699): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(707): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(714): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(710): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(720): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(715): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(726): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(721): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(731): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(727): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(739): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(732): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(1113): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(1135): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(740): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(750): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(751): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(761): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(762): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(1201): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>d:\my stuff\guc\year 4\semester 7\computer graphics\monster-game\openglmeshloader.cpp(1224): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(356) : see declaration of 'sprintf'
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\My stuff\GUC\Year 4\Semester 7\Computer Graphics\monster-game\Debug\OpenGLMeshLoader.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\My stuff\GUC\Year 4\Semester 7\Computer Graphics\monster-game\Debug\\.." glut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\My stuff\GUC\Year 4\Semester 7\Computer Graphics\monster-game\Debug\OpenGLMeshLoader.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\My stuff\GUC\Year 4\Semester 7\Computer Graphics\monster-game\Debug\OpenGLMeshLoader.lib" /MACHINE:X86 Debug\GLTexture.obj
@@ -45,4 +45,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.44
+Time Elapsed 00:00:01.36

@@ -19,13 +19,15 @@ int frames = 0;
 int time = 30;
 int gameSpeed = 200;
 bool incTime = true;
-bool level1 = false ;
+bool level1 = true ;
 float sysAngle = 0.0f;
 bool third_person = true;
 bool first_person = false;
 bool finished_game = false;
 char skr[6];
-
+bool times_up = false;
+bool ability = false;
+int ability_counter = 10;
 //RED BOI VARIABLES
 double posX, posZ=0.0;
 float angleX = 0.0f;
@@ -205,12 +207,13 @@ void InitLightSource()
 
 	// Enable Light Source number 0
 	// OpengL has 8 light sources
+	glEnable(GL_LIGHT2);
 	glEnable(GL_LIGHT1);
 	glEnable(GL_LIGHT0);
 
 	// Define Light source 0 ambient light
 	GLfloat ambient[] = { 0.1f, 0.1f, 0.1, 1.0f };
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, ambient);
 
 	// Define Light source 0 diffuse light
 	GLfloat diffuse[] = { 0.5f, 0.5f, 0.5f, 1.0f };
@@ -222,7 +225,7 @@ void InitLightSource()
 
 	// Finally, define light source 0 position in World Space
 	GLfloat light_position[] = { 0.0f, 10.0f, 0.0f, 1.0f };
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	glLightfv(GL_LIGHT2, GL_POSITION, light_position);
 }
 
 //=======================================================================
@@ -360,20 +363,20 @@ bool checkCarRange(){
 	bool mapz = posZ >= -49 && posZ <= 49;
 	bool mapcn = mapx && mapz;
 
-	bool blue_boiX = posX >= (bluX - 0.5) && posX <= (bluX + 0.5);
-	bool blue_boiZ = posZ >= (bluZ - 0.5) && posZ <= (bluZ + 0.5);
+	bool blue_boiX = posX >= (bluX - 0.7) && posX <= (bluX + 0.7);
+	bool blue_boiZ = posZ >= (bluZ - 0.7) && posZ <= (bluZ + 0.7);
 	bool blue_boi = blue_boiX && blue_boiZ && bluAlive;
 	
-	bool green_boiX = posX >= (grnX - 0.5) && posX <= (grnX + 0.5);
-	bool green_boiZ = posZ >= (grnZ - 0.5) && posZ <= (grnZ + 0.5);
+	bool green_boiX = posX >= (grnX - 0.7) && posX <= (grnX + 0.7);
+	bool green_boiZ = posZ >= (grnZ - 0.7) && posZ <= (grnZ + 0.7);
 	bool green_boi = green_boiX && green_boiZ && grnAlive;
 
-	bool yellow_boiX = posX >= (ylwX - 0.5) && posX <= (ylwX + 0.5);
-	bool yellow_boiZ = posZ >= (ylwZ - 0.5) && posZ <= (ylwZ + 0.5);
+	bool yellow_boiX = posX >= (ylwX - 0.7) && posX <= (ylwX + 0.7);
+	bool yellow_boiZ = posZ >= (ylwZ - 0.7) && posZ <= (ylwZ + 0.7);
 	bool yellow_boi = yellow_boiX && yellow_boiZ && ylwAlive;
 
-	bool orange_boiX = posX >= (orgX - 0.5) && posX <= (orgX + 0.5);
-	bool orange_boiZ = posZ >= (orgZ - 0.5) && posZ <= (orgZ + 0.5);
+	bool orange_boiX = posX >= (orgX - 0.7) && posX <= (orgX + 0.7);
+	bool orange_boiZ = posZ >= (orgZ - 0.7) && posZ <= (orgZ + 0.7);
 	bool orange_boi = orange_boiX && orange_boiZ && orgAlive;
 
 
@@ -407,7 +410,27 @@ bool checkCarRange2(){
 	bool mapz = posZ >= -49 && posZ <= 49;
 	bool mapcn = mapx && mapz;
 
-	return red_col || blue_col || green_col || tree || house ;
+	bool blue_boiX = posX >= (blueDragonX - 0.5) && posX <= (blueDragonX + 0.5);
+	bool blue_boiZ = posZ >= (blueDragonZ - 0.5) && posZ <= (blueDragonZ + 0.5);
+	bool blue_boi = blue_boiX && blue_boiZ && bluAlive;
+
+	bool green_boiX = posX >= (greenDragonX - 0.5) && posX <= (greenDragonX + 0.5);
+	bool green_boiZ = posZ >= (greenDragonZ - 0.5) && posZ <= (greenDragonZ + 0.5);
+	bool green_boi = green_boiX && green_boiZ && greenDragonAlive;
+
+	bool yellow_boiX = posX >= (yellowDragonX - 0.5) && posX <= (yellowDragonX + 0.5);
+	bool yellow_boiZ = posZ >= (yellowDragonZ - 0.5) && posZ <= (yellowDragonZ + 0.5);
+	bool yellow_boi = yellow_boiX && yellow_boiZ && yellowDragonZ;
+
+	bool orange_boiX = posX >= (orangeDragonX - 0.5) && posX <= (orangeDragonX + 0.5);
+	bool orange_boiZ = posZ >= (orangeDragonZ - 0.5) && posZ <= (orangeDragonZ + 0.5);
+	bool orange_boi = orange_boiX && orange_boiZ && orangeDragonAlive;
+
+	bool red_boiX = posX >= (redDragonX - 0.5) && posX <= (redDragonX + 0.5);
+	bool red_boiZ = posZ >= (redDragonZ - 0.5) && posZ <= (redDragonZ + 0.5);
+	bool red_boi = red_boiX && red_boiZ && redDragonAlive;
+
+	return red_col || blue_col || green_col || blue_boi || green_boi|| yellow_boi || orange_boi|| red_boi|| tree || house  ;
 }
 void myDisplay(void)
 {
@@ -510,6 +533,13 @@ void myDisplay(void)
 		print(0.0f, 0.0f, 0.0f, "GAME OVER !");
 		glPopMatrix();
 	
+	}
+	if (times_up){
+		glPushMatrix();
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glTranslated(-1 + posX, 5, -1 + posZ);
+		print(0.0f, 0.0f, 0.0f, "TIME IS UP !");
+		glPopMatrix();
 	}
 	if (!level1 && redDragonAlive){
 		//RED DRAGON
@@ -949,12 +979,55 @@ void attackAnimation(){
 	 
 	 
  }
+ void refreshCamera1(){
+	 if (posX > 0){
+		 At.x = posX;
+	 }
+	 else{
+		 At.x = posX;
+
+	 }
+	 if (posZ > 0){
+		 At.z = posZ;
+	 }
+	 else{
+		 At.z = posZ;
+	 }
+
+	 At.z = posZ;
+	 Eye.x = posX - 10;
+	 Eye.z = posZ - 10;
+	 if (angleX >= 90 && angleX < 180){
+		 Eye.x = posX - 10 - 3.6;
+		 Eye.z = posZ - 10 + 7.0;
+	 }
+	 glLoadIdentity();
+	 //Clear Model_View Matrix
+
+	 gluLookAt(Eye.x, Eye.y - 5, Eye.z + 3, At.x, At.y, At.z - 8, Up.x, Up.y, Up.z);
+	 // glRotated(45, 0, 1, 0);
+	 // cameraWidth = 672;
+	 // glRotatef(angleX, 0.0f, 1.0f, 0.0f);
+ }
 void myKeyboard(unsigned char button, int x, int y)
 {
+	if (finished_game || times_up)
+		return;
+	if (ability){
+		ability_counter--;
+		if (ability_counter > 0){
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);;
+		}
+	}
 	switch (button)
 	{
+	case '1':
+		third_person = false;
+		break;
+	case '3':
+		third_person = true;
+		break;
 	case'p': 
-
 		sysAngle=sysAngle+1;
 		printf("THE ANGLE IS %f", sysAngle);
 		break;
@@ -986,7 +1059,10 @@ void myKeyboard(unsigned char button, int x, int y)
 		refreshCamera();
 		break;
 	case 't':
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		if (!ability){
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			ability = true;
+		}	
 		break;
 	case 'r':
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -996,11 +1072,17 @@ void myKeyboard(unsigned char button, int x, int y)
 		if (third_person){
 			refreshCamera();
 		}
+		if (!third_person){
+			refreshCamera1();
+		}
 		break;
 	case 's':
 		move(button);
 		if (third_person){
 			refreshCamera();
+		}
+		if (!third_person){
+			refreshCamera1();
 		}
 		break;
 	case 'a':
@@ -1008,11 +1090,17 @@ void myKeyboard(unsigned char button, int x, int y)
 		if (third_person){
 			refreshCamera();
 		}
+		if (!third_person){
+			refreshCamera1();
+		}
 		break;
 	case 'd':
 		move(button);
 		if (third_person){
 			refreshCamera();
+		}
+		if (!third_person){
+			refreshCamera1();
 		}
 		break;
 	case 'z':
@@ -1111,6 +1199,7 @@ void timer(int val){
 	}
 	if (time < 0){
 		bool sound = PlaySound(TEXT(failed), NULL, SND_ASYNC | SND_FILENAME);
+		times_up = true;
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		//printf("GAME OVER ! \n");
 		//exit(0);
@@ -1135,6 +1224,7 @@ void timer(int val){
 		sprintf(skr, "%d", score);
 		printf("YOU HAVE DEFEATED ALL ENEMIES \n");
 		printf("YOUR SCORE IS %d \n",score);
+		
 
 	}
 	
